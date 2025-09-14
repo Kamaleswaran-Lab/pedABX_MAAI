@@ -38,7 +38,7 @@ The model uses a Multi-Agent architecture, where different "agents" specialize i
 
 1.  **Clone the repository:**
     ```bash
-    git clone <repository_url>
+    git clone [<repository_url>](https://github.com/Kamaleswaran-Lab/pedABX_MAAI)
     cd maai-antibiotic-prediction
     ```
 
