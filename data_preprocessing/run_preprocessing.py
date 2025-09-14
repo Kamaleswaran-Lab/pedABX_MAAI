@@ -5,6 +5,7 @@ Main script to execute the full data preprocessing pipeline.
 import os
 import sys
 import pandas as pd
+import subprocess
 
 # Add the root directory to the Python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -21,6 +22,15 @@ def main():
     os.makedirs(config.MODEL_SAVE_PATH, exist_ok=True)
     os.makedirs(config.RESULTS_PATH, exist_ok=True)
 
+    # Step 1: Create the cohort
+    print("--- Creating Cohort ---")
+    # Here we default to 'phoenix', but this could be an argument to the script
+    subprocess.run([
+        'python',
+        os.path.join(os.path.dirname(__file__), 'create_cohort.py'),
+        '--criteria', 'phoenix'
+    ], check=True)
+
     # 1. Load Data
     df_vars, df_meds, df_outcomes = fe.load_data(config)
     if df_vars is None:
@@ -30,25 +40,24 @@ def main():
     df_vars = fe.preprocess_bp(df_vars)
     df_vars_hourly = fe.resample_to_hourly(df_vars)
     df_vars_imputed = fe.impute_missing_values(df_vars_hourly)
-    
+
     # 3. Create Statistical Features (the main feature set)
     df_vars_stats = fe.create_statistical_features(df_vars_imputed, config)
-    
+
     # 4. Preprocess Medication Data
     df_meds_features = fe.create_medication_features(df_meds, config)
 
     # 5. Combine all features
     final_df = fe.combine_features(df_vars_stats, df_meds_features, df_outcomes)
-    
+
     # 6. Save Processed Data
-    output_filepath = os.path.join(config.PROCESSED_DATA_PATH, "processed_feature_matrix.parquet")
+    output_filepath = os.path.join(config.PROCESSED_DATA_PATH, config.PROCESSED_FEATURE_MATRIX_FILE)
     print(f"Saving final feature matrix to {output_filepath}...")
     final_df.to_parquet(output_filepath, index=False)
-    
+
     print("--- Preprocessing Pipeline Finished Successfully ---")
     print(f"Final dataset shape: {final_df.shape}")
     print(f"Saved to {output_filepath}")
 
 if __name__ == '__main__':
     main()
-
