@@ -136,8 +136,8 @@ python model_development/evaluate_model.py
 ### Using the Jupyter Notebooks
 For a more interactive, step-by-step guide through the entire process, open and run the notebooks in the notebooks/ directory. This is highly recommended for understanding the mechanics of the model.
 
-01_Data_Exploration.ipynb: Understand the raw data.
+- 01_Data_Exploration.ipynb: Understand the raw data.
 
-02_Model_Development_Walkthrough.ipynb: Interactively preprocess data, build, train, and evaluate the model.
+- 02_Model_Development_Walkthrough.ipynb: Interactively preprocess data, build, train, and evaluate the model.
 
 Note: The notebooks may require minor adjustments to align with the refactored script structure, such as importing from the centralized config.py file.
