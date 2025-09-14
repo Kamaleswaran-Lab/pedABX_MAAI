@@ -15,34 +15,29 @@ The model uses a Multi-Agent architecture, where different "agents" specialize i
 ```
 .
 ├── data_preprocessing/
-│   ├── config.py               # (*) Holds all project constants (paths, feature lists)
-│   ├── create_cohort.py        # (*) New script to create the patient cohort
-│   ├── feature_extractor.py    # (No changes needed)
-│   └── run_preprocessing.py    # (*) Main script to execute the full preprocessing pipeline
+│   ├── config.py               # Holds all project constants (paths, feature lists)
+│   ├── create_cohort.py        # New script to create the patient cohort based on clinical criteria
+│   ├── feature_extractor.py    # Core logic for data cleaning, imputation, and feature engineering
+│   └── run_preprocessing.py    # Main script to execute the full preprocessing pipeline
 │
 ├── model_development/
-│   ├── maai_model.py           # (No changes needed)
-│   ├── train_model.py          # (*) Updated to use new data loading logic
-│   ├── evaluate_model.py       # (*) Updated to use new data loading logic
-│   └── utils.py                # (No changes needed)
+│   ├── maai_model.py           # Defines the Keras/TensorFlow MAAI model architecture
+│   ├── train_model.py          # Script for training the model
+│   ├── evaluate_model.py       # Script for evaluating the trained model
+│   └── utils.py                # Helper functions for data prep, plotting, etc.
 │
 ├── notebooks/
 │   ├── 01_Data_Exploration.ipynb
 │   └── 02_Model_Development_Walkthrough.ipynb
 │
-
 ├── synthetic_data/
-│   ├── raw/
-│   │   ├── raw_variables.csv
-│   │   ├── raw_meds.csv
-│   │   └── outcomes.csv
-│   └── processed/
+│   ├── raw/                    # Directory for your raw input CSV files
+│   └── processed/              # Directory for processed data outputs
 │
 ├── .gitignore
-├── LICENSE
-├── README.md
 ├── requirements.txt
-└── run_project.sh              # (*) New master script
+├── README.md
+└── run_project.sh              # New master script to run the entire pipeline
 
 ```
 
@@ -53,8 +48,8 @@ The model uses a Multi-Agent architecture, where different "agents" specialize i
 
 1.  **Clone the repository:**
     ```bash
-    git clone [<repository_url>](https://github.com/Kamaleswaran-Lab/pedABX_MAAI)
-    cd maai-antibiotic-prediction
+    git clone [https://github.com/Kamaleswaran-Lab/pedABX_MAAI](https://github.com/Kamaleswaran-Lab/pedABX_MAAI)
+    cd pedABX_MAAI
     ```
 
 2.  **Create a virtual environment (recommended):**
@@ -72,13 +67,15 @@ The model uses a Multi-Agent architecture, where different "agents" specialize i
 
 ### Step 1: Configure the Project
 
-Before running any scripts, you must edit `data_preprocessing/config.py`. Update the file paths to point to your raw synthetic datasets and specify where you want the processed data to be saved.
+Before running any scripts, you must edit `data_preprocessing/config.py`. Update the file paths to point to your raw datasets and specify where you want processed data, models, and results to be saved.
 
 ```python
 # data_preprocessing/config.py
-RAW_DATA_PATH = 'path/to/your/raw_data/'
-PROCESSED_DATA_PATH = 'path/to/save/processed_data/'
-MODEL_SAVE_PATH = 'path/to/save/models/'
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+RAW_DATA_PATH = os.path.join(BASE_DIR, 'synthetic_data', 'raw')
+PROCESSED_DATA_PATH = os.path.join(BASE_DIR, 'synthetic_data', 'processed')
+MODEL_SAVE_PATH = os.path.join(BASE_DIR, 'models')
+RESULTS_PATH = os.path.join(BASE_DIR, 'results')
 # ... and other configurations
 ```
 
@@ -87,7 +84,37 @@ MODEL_SAVE_PATH = 'path/to/save/models/'
 This script will take the raw synthetic data, perform all necessary cleaning, feature engineering, and save the final feature matrix and labels.
 
 ```bash
+chmod +x run_project.sh
+```
+
+Then, run the pipeline:
+
+```bash
+./run_project.sh
+```
+
+## Alternative: Run Steps Manually
+If you prefer more granular control, you can run each major step of the pipeline individually.
+
+Run the Preprocessing Pipeline:
+This script will first call create_cohort.py to define the patient cohort and then run all necessary cleaning and feature engineering steps.
+
+```bash
 python data_preprocessing/run_preprocessing.py
+```
+Note: You can change the cohort criteria (e.g., 'sirs', 'psofa', 'phoenix') inside the run_preprocessing.py script.
+
+Train the MAAI Model:
+This script loads the preprocessed data and trains the model. The trained model will be saved to the path specified in the config.
+
+```bash
+python model_development/train_model.py
+```
+Evaluate the Model:
+After training, run the evaluation script to generate performance metrics and plots on the test set.
+
+```bash
+python model_development/evaluate_model.py
 ```
 
 ### Step 3: Train the MAAI Model
@@ -106,9 +133,11 @@ After training, run the evaluation script to generate performance metrics and pl
 python model_development/evaluate_model.py
 ```
 
-### Alternative: Use the Jupyter Notebooks
+### Using the Jupyter Notebooks
+For a more interactive, step-by-step guide through the entire process, open and run the notebooks in the notebooks/ directory. This is highly recommended for understanding the mechanics of the model.
 
-For a more interactive, step-by-step guide through the entire process, open and run the notebooks in the `notebooks/` directory. This is highly recommended for understanding the mechanics of the model.
+01_Data_Exploration.ipynb: Understand the raw data.
 
-* `01_Data_Exploration.ipynb`: Understand the raw data.
-* `02_Model_Development_Walkthrough.ipynb`: Interactively preprocess data, build, train, and evaluate the model.
+02_Model_Development_Walkthrough.ipynb: Interactively preprocess data, build, train, and evaluate the model.
+
+Note: The notebooks may require minor adjustments to align with the refactored script structure, such as importing from the centralized config.py file.
