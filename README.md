@@ -1,4 +1,4 @@
-# MAAI for Pediatric Antibiotic Prediction
+# MAAI for Pediatric Antibiotic Stewardship
 
 This repository contains a complete suite of scripts and notebooks for developing a Multi-Agent Artificial Intelligence (MAAI) model to predict the need for antibiotic initiation on an hour-by-hour basis for pediatric patients in the ICU.
 
