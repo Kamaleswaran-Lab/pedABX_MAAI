@@ -15,24 +15,39 @@ The model uses a Multi-Agent architecture, where different "agents" specialize i
 ```
 .
 ├── data_preprocessing/
-│   ├── config.py               # Holds all project constants (paths, feature lists)
-│   ├── feature_extractor.py    # Core logic for data cleaning, imputation, and feature engineering
-│   └── run_preprocessing.py      # Main script to execute the full preprocessing pipeline
+│   ├── config.py               # (*) Holds all project constants (paths, feature lists)
+│   ├── create_cohort.py        # (*) New script to create the patient cohort
+│   ├── feature_extractor.py    # (No changes needed)
+│   └── run_preprocessing.py    # (*) Main script to execute the full preprocessing pipeline
 │
 ├── model_development/
-│   ├── maai_model.py           # Defines the Keras/TensorFlow MAAI model architecture
-│   ├── train_model.py          # Script for training the model
-│   ├── evaluate_model.py       # Script for evaluating the trained model
-│   └── utils.py                # Helper functions for data prep, plotting, etc.
+│   ├── maai_model.py           # (No changes needed)
+│   ├── train_model.py          # (*) Updated to use new data loading logic
+│   ├── evaluate_model.py       # (*) Updated to use new data loading logic
+│   └── utils.py                # (No changes needed)
 │
 ├── notebooks/
-│   ├── 01_Data_Exploration.ipynb       # EDA on raw synthetic data
-│   └── 02_Model_Development_Walkthrough.ipynb # Step-by-step guide to training and evaluation
+│   ├── 01_Data_Exploration.ipynb
+│   └── 02_Model_Development_Walkthrough.ipynb
+│
+
+├── synthetic_data/
+│   ├── raw/
+│   │   ├── raw_variables.csv
+│   │   ├── raw_meds.csv
+│   │   └── outcomes.csv
+│   └── processed/
 │
 ├── .gitignore
+├── LICENSE
+├── README.md
 ├── requirements.txt
-└── README.md
+└── run_project.sh              # (*) New master script
+
 ```
+
+
+
 
 ## Setup and Installation
 
