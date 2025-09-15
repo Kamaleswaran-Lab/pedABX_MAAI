@@ -46,7 +46,12 @@ def create_advanced_features(df, config):
     df = df.sort_values(by=[config.PATIENT_ID_COL, 'hour'])
     
     # 1. Rate of Change (Velocity) Features
-    for col in ['lactic_acid', 'wbc', 'creatinine', 'pulse', 'resp', 'temp']:
+    # Expanded list of labs to track velocity, which is often more important than a single value
+    velocity_features = [
+        'lactic_acid', 'wbc', 'creatinine', 'platelets', 'bilirubin_total',
+        'alt', 'ast', 'pt', 'inr', 'pulse', 'resp', 'temp', 'map'
+    ]
+    for col in velocity_features:
         if col in df.columns:
             df[f'{col}_roc_3hr'] = df.groupby(config.PATIENT_ID_COL)[col].diff(periods=3)
     
