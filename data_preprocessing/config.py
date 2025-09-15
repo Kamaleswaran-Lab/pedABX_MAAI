@@ -16,10 +16,17 @@ RESULTS_PATH = os.path.join(BASE_DIR, 'results')
 # --- DATA FILENAMES ---
 RAW_VARIABLES_FILE = 'variables.pkl'
 RAW_MEDS_FILE = 'filtered_meds.parquet.gzip'
+ANTIINF_MEDS_FILE = 'antiinf_meds.parquet.gzip'
+DEPARTMENTS_FILE = 'TAB2_Encounter_Departments.parquet.gzip'
+DEMOGRAPHICS_FILE = 'TAB1_Patients.parquet.gzip'
+PROBLEM_LIST_FILE = 'TAB3_Problem_List.parquet.gzip'
+HOSP_DIAG_FILE = 'TAB4_Hospital_Diagnoses.parquet.gzip'
+ADM_DIAG_FILE = 'TAB5_Admitting_Diagnoses.parquet.gzip'
+MV_INDICATORS_FILE = 'mv_indicators_raw.parquet.gzip'
+APPARATUS_TYPE_FILE = '../files/apparatus_type_ann.csv' # Assuming a 'files' dir at the root
+ECMO_FILE = '../files/ECMO_database_2010_2022.csv'
+
 COHORT_FILE = 'cohort_inf_phoenix.csv'
-DIAGNOSES_FILE = 'flagged_adm_diag.parquet.gzip'
-PREV_HOSP_FILE = 'previous_hosp.parquet.gzip'
-CULTURES_FILE = 'filtered_labs.parquet.gzip'
 PROCESSED_FEATURE_MATRIX_FILE = "processed_feature_matrix.parquet"
 
 # --- PREPROCESSING PARAMETERS ---
@@ -32,7 +39,7 @@ CSN_COL = 'csn'
 VITALS_FEATURES = [
     'weight', 'pulse', 'map', 'bp_sys', 'bp_dias', 'resp', 'spo2', 'temp', 'fio2',
     'pao2_fio2', 'o2_flow', 'coma_scale_total', 'pupil_left_size',
-    'pupil_right_size', 'urine', 'vol_infused'
+    'pupil_right_size', 'urine', 'vol_infused', 'cap_refill'
 ]
 
 LABS_FEATURES = [
@@ -40,13 +47,13 @@ LABS_FEATURES = [
     'creatinine', 'calcium', 'calcium_ionized', 'co2', 'hemoglobin',
     'bilirubin_total', 'albumin', 'wbc', 'platelets', 'ptt', 'base_excess',
     'bicarbonate', 'lactic_acid', 'base_deficit', 'band_neutrophils', 'alt',
-    'ast', 'pt', 'inr'
+    'ast', 'pt', 'inr', 'ddimer', 'fibrinogen'
 ]
 
 # The keys of this dictionary ARE the variable names for the medication flags.
 MEDICATION_GROUPS = {
     'on_asthma_meds': [
-        'albuterol', 'dexamethasone', 'epinephrine', 'methylprednisolone',
+        'albuterol', 'dexamethasone', 'epinephrine', 'methylprednisolone', 
         'magnesium sulfate', 'terbutaline', 'levalbuterol', 'xopenex'
     ],
     'on_seizure_meds': [
@@ -56,16 +63,16 @@ MEDICATION_GROUPS = {
         'epinephrine', 'phenylephrine', 'dopamine', 'norepinephrine', 'vasopressin'
     ],
     'on_antiinf_meds': [
-        'acyclovir', 'amikacin', 'amoxicillin', 'amphotericin', 'ampicillin',
-        'azithromycin', 'aztreonam', 'cefazolin', 'cefdinir', 'cefepime',
-        'cefixime', 'cefotaxime', 'cefotetan', 'cefoxitin', 'cefprozil',
-        'ceftazidime', 'ceftriaxone', 'cefuroxime', 'cephalexin', 'cidofovir',
-        'ciprofloxacin', 'clarithromycin', 'clindamycin', 'dapsone', 'daptomycin',
-        'doxycycline', 'ertapenem', 'ethambutol', 'fluconazole', 'foscarnet',
-        'ganciclovir', 'gentamicin', 'imipenem', 'isoniazid', 'levofloxacin',
-        'linezolid', 'meropenem', 'metronidazole', 'micafungin', 'moxifloxacin',
-        'nitrofurantoin', 'oseltamivir', 'oxacillin', 'penicillin', 'piperacillin',
-        'posaconazole', 'rifampin', 'sulfamethoxazole', 'ticarcillin', 'tobramycin',
+        'acyclovir', 'amikacin', 'amoxicillin', 'amphotericin', 'ampicillin', 
+        'azithromycin', 'aztreonam', 'cefazolin', 'cefdinir', 'cefepime', 
+        'cefixime', 'cefotaxime', 'cefotetan', 'cefoxitin', 'cefprozil', 
+        'ceftazidime', 'ceftriaxone', 'cefuroxime', 'cephalexin', 'cidofovir', 
+        'ciprofloxacin', 'clarithromycin', 'clindamycin', 'dapsone', 'daptomycin', 
+        'doxycycline', 'ertapenem', 'ethambutol', 'fluconazole', 'foscarnet', 
+        'ganciclovir', 'gentamicin', 'imipenem', 'isoniazid', 'levofloxacin', 
+        'linezolid', 'meropenem', 'metronidazole', 'micafungin', 'moxifloxacin', 
+        'nitrofurantoin', 'oseltamivir', 'oxacillin', 'penicillin', 'piperacillin', 
+        'posaconazole', 'rifampin', 'sulfamethoxazole', 'ticarcillin', 'tobramycin', 
         'vancomycin', 'voriconazole'
     ],
     'on_insulin': ['insulin']
