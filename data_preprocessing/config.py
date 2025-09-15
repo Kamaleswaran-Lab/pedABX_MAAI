@@ -35,7 +35,7 @@ LOOKBACK_WINDOW_HOURS = 12
 PATIENT_ID_COL = 'patid'
 CSN_COL = 'csn'
 
-# --- FEATURE LISTS (derived from ped-sepsis-prediction-ml) ---
+# --- FEATURE LISTS (derived from ped-sepsis-prediction-ml and clinical review) ---
 VITALS_FEATURES = [
     'weight', 'pulse', 'map', 'bp_sys', 'bp_dias', 'resp', 'spo2', 'temp', 'fio2',
     'pao2_fio2', 'o2_flow', 'coma_scale_total', 'pupil_left_size',
@@ -47,10 +47,10 @@ LABS_FEATURES = [
     'creatinine', 'calcium', 'calcium_ionized', 'co2', 'hemoglobin',
     'bilirubin_total', 'albumin', 'wbc', 'platelets', 'ptt', 'base_excess',
     'bicarbonate', 'lactic_acid', 'base_deficit', 'band_neutrophils', 'alt',
-    'ast', 'pt', 'inr', 'ddimer', 'fibrinogen'
+    'ast', 'pt', 'inr', 'ddimer', 'fibrinogen', 'lymphocytes', 'neutrophils'
 ]
 
-# The keys of this dictionary ARE the variable names for the medication flags.
+# The keys are the flag names, and the values are the keywords used to identify them
 MEDICATION_GROUPS = {
     'on_asthma_meds': [
         'albuterol', 'dexamethasone', 'epinephrine', 'methylprednisolone', 
@@ -87,9 +87,14 @@ DIAGNOSIS_MAP = {
     'kidney_failure_diag': ['kidney disease', 'kidney failure']
 }
 
-
 OTHER_FLAGS = [
     'had_cultures_ordered', 'prev_hosp', 'prev_hosp_prev_year'
+]
+
+# --- PEDIATRIC RATIOS AND SCORES ---
+PEDIATRIC_RATIOS_AND_SCORES = [
+    'sf_ratio', 'shock_index', 'age_adjusted_shock_index',
+    'neutrophil_lymphocyte_ratio', 'delta_anion_gap'
 ]
 
 # --- MODELING PARAMETERS ---
