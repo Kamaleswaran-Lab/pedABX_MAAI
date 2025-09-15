@@ -97,7 +97,7 @@ Then, run the pipeline:
 ./run_project.sh
 ```
 
-## Alternative: Run Steps Manually
+### Alternative: Run Steps Manually
 If you prefer more granular control, you can run each major step of the pipeline individually.
 
 ## Run the Preprocessing Pipeline:
