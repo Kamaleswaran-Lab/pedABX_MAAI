@@ -46,7 +46,7 @@ LABS_FEATURES = [
 # The keys of this dictionary ARE the variable names for the medication flags.
 MEDICATION_GROUPS = {
     'on_asthma_meds': [
-        'albuterol', 'dexamethasone', 'epinephrine', 'methylprednisolone', 
+        'albuterol', 'dexamethasone', 'epinephrine', 'methylprednisolone',
         'magnesium sulfate', 'terbutaline', 'levalbuterol', 'xopenex'
     ],
     'on_seizure_meds': [
@@ -56,25 +56,30 @@ MEDICATION_GROUPS = {
         'epinephrine', 'phenylephrine', 'dopamine', 'norepinephrine', 'vasopressin'
     ],
     'on_antiinf_meds': [
-        'acyclovir', 'amikacin', 'amoxicillin', 'amphotericin', 'ampicillin', 
-        'azithromycin', 'aztreonam', 'cefazolin', 'cefdinir', 'cefepime', 
-        'cefixime', 'cefotaxime', 'cefotetan', 'cefoxitin', 'cefprozil', 
-        'ceftazidime', 'ceftriaxone', 'cefuroxime', 'cephalexin', 'cidofovir', 
-        'ciprofloxacin', 'clarithromycin', 'clindamycin', 'dapsone', 'daptomycin', 
-        'doxycycline', 'ertapenem', 'ethambutol', 'fluconazole', 'foscarnet', 
-        'ganciclovir', 'gentamicin', 'imipenem', 'isoniazid', 'levofloxacin', 
-        'linezolid', 'meropenem', 'metronidazole', 'micafungin', 'moxifloxacin', 
-        'nitrofurantoin', 'oseltamivir', 'oxacillin', 'penicillin', 'piperacillin', 
-        'posaconazole', 'rifampin', 'sulfamethoxazole', 'ticarcillin', 'tobramycin', 
+        'acyclovir', 'amikacin', 'amoxicillin', 'amphotericin', 'ampicillin',
+        'azithromycin', 'aztreonam', 'cefazolin', 'cefdinir', 'cefepime',
+        'cefixime', 'cefotaxime', 'cefotetan', 'cefoxitin', 'cefprozil',
+        'ceftazidime', 'ceftriaxone', 'cefuroxime', 'cephalexin', 'cidofovir',
+        'ciprofloxacin', 'clarithromycin', 'clindamycin', 'dapsone', 'daptomycin',
+        'doxycycline', 'ertapenem', 'ethambutol', 'fluconazole', 'foscarnet',
+        'ganciclovir', 'gentamicin', 'imipenem', 'isoniazid', 'levofloxacin',
+        'linezolid', 'meropenem', 'metronidazole', 'micafungin', 'moxifloxacin',
+        'nitrofurantoin', 'oseltamivir', 'oxacillin', 'penicillin', 'piperacillin',
+        'posaconazole', 'rifampin', 'sulfamethoxazole', 'ticarcillin', 'tobramycin',
         'vancomycin', 'voriconazole'
     ],
     'on_insulin': ['insulin']
 }
 
-DIAGNOSIS_FLAGS = [
-    'sepsis_septicemia_diag', 'septic_shock_diag', 'sickle_cell_diag',
-    'dka_diag', 'asthmaticus_diag'
-]
+DIAGNOSIS_MAP = {
+    'sepsis_septicemia_diag': ['sepsis', 'septicemia'],
+    'septic_shock_diag': ['septic shock'],
+    'sickle_cell_diag': ['sickle'],
+    'dka_diag': ['diabetes', 'ketoacidosis'],
+    'asthmaticus_diag': ['asthmaticus'],
+    'kidney_failure_diag': ['kidney disease', 'kidney failure']
+}
+
 
 OTHER_FLAGS = [
     'had_cultures_ordered', 'prev_hosp', 'prev_hosp_prev_year'
